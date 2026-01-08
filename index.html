@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wordle Breaker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Work+Sans:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="header">
+        <div class="logo">
+          <div class="tiles">
+            <span class="tile tile-plain"></span>
+            <span class="tile tile-plain"></span>
+            <span class="tile tile-plain"></span>
+            <span class="tile tile-plain"></span>
+            <span class="tile tile-yellow"></span>
+            <span class="tile tile-plain"></span>
+            <span class="tile tile-green"></span>
+            <span class="tile tile-green"></span>
+            <span class="tile tile-green"></span>
+          </div>
+        </div>
+        <div class="wordmark">
+          <h1>Wordle Breaker</h1>
+          <p class="subtitle">Season finale arcade, tuned to your squares.</p>
+        </div>
+      </header>
+
+      <section class="hero" id="hero">
+        <div class="hero-card">
+          <div>
+            <h2>Smash the grid.</h2>
+            <p class="hero-copy">
+              Your green and yellow totals from the season define the brick field.
+              Clear it to lock in your score and send it back to the bot.
+            </p>
+          </div>
+          <div class="hero-meta">
+            <div class="meta-line">
+              <span class="meta-label">Player</span>
+              <span id="playerName" class="meta-value">—</span>
+            </div>
+            <div class="meta-line">
+              <span class="meta-label">Season</span>
+              <span id="seasonValue" class="meta-value">—</span>
+            </div>
+            <div class="meta-line">
+              <span class="meta-label">Greens</span>
+              <span id="greenValue" class="meta-value">—</span>
+            </div>
+            <div class="meta-line">
+              <span class="meta-label">Yellows</span>
+              <span id="yellowValue" class="meta-value">—</span>
+            </div>
+          </div>
+          <button id="startButton" class="primary-btn">Play</button>
+          <p id="tokenStatus" class="status"></p>
+        </div>
+      </section>
+
+      <main id="gameSection" class="game-section hidden">
+        <div class="game-header">
+          <div class="game-title">
+            <h2>Ball Breaker</h2>
+            <p id="gameTagline">Use your paddle to clear the Wordle wall.</p>
+          </div>
+          <div class="stats">
+            <div class="stat">
+              <span class="label">Score</span>
+              <span id="scoreValue" class="value">000000</span>
+            </div>
+            <div class="stat">
+              <span class="label">Lives</span>
+              <span id="livesValue" class="value">3</span>
+            </div>
+            <div class="stat">
+              <span class="label">Speed</span>
+              <span id="speedValue" class="value">Normal</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="game-layout">
+          <div class="canvas-shell">
+            <canvas id="gameCanvas"></canvas>
+            <div id="overlay" class="overlay hidden">
+              <div class="overlay-card">
+                <h3 id="overlayTitle">Game Over</h3>
+                <p id="overlayScore">Score: 0</p>
+                <p id="overlayCountdown" class="overlay-countdown hidden">3</p>
+                <button id="restartButton" class="ghost-btn">Play Again</button>
+              </div>
+            </div>
+          </div>
+
+          <aside class="sidebar">
+            <div class="legend">
+              <h3>Brick Rules</h3>
+              <div class="legend-row">
+                <span class="swatch green"></span>
+                <span>Green brick = double points + calmer speed</span>
+              </div>
+              <div class="legend-row">
+                <span class="swatch yellow"></span>
+                <span>Yellow brick = standard points + faster ball</span>
+              </div>
+            </div>
+            <div class="panel">
+              <h3>Brick Count</h3>
+              <div class="panel-row">
+                <span>Greens</span>
+                <span id="brickGreenCount" class="mono">—</span>
+              </div>
+              <div class="panel-row">
+                <span>Yellows</span>
+                <span id="brickYellowCount" class="mono">—</span>
+              </div>
+              <div class="panel-row">
+                <span>Submission</span>
+                <span id="submitStatus" class="mono">Waiting</span>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </main>
+    </div>
+
+    <script src="./game.js"></script>
+  </body>
+</html>
