@@ -224,6 +224,7 @@ body {
   display: block;
   border-radius: 18px;
   background: radial-gradient(circle at top, #1c1c1a 0%, #0f0f0e 65%);
+  touch-action: none;
 }
 
 .overlay {

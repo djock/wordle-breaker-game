@@ -472,6 +472,9 @@ function restartGame() {
 
 function handlePointerMove(event) {
   if (state.status !== "PLAYING") return;
+  if (event.touches) {
+    event.preventDefault();
+  }
   const rect = canvas.getBoundingClientRect();
   const clientX = event.touches ? event.touches[0].clientX : event.clientX;
   const scale = rect.width / game.canvasWidth;
@@ -498,7 +501,7 @@ window.addEventListener("resize", () => {
 });
 
 window.addEventListener("mousemove", handlePointerMove);
-window.addEventListener("touchmove", handlePointerMove, { passive: true });
+window.addEventListener("touchmove", handlePointerMove, { passive: false });
 window.addEventListener("keydown", (event) => {
   if (event.key === "ArrowLeft") controls.left = true;
   if (event.key === "ArrowRight") controls.right = true;
