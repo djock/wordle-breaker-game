@@ -13,6 +13,7 @@ const overlay = document.getElementById("overlay");
 const overlayTitle = document.getElementById("overlayTitle");
 const overlayScore = document.getElementById("overlayScore");
 const overlayCountdown = document.getElementById("overlayCountdown");
+const overlayPlayButton = document.getElementById("overlayPlayButton");
 const submitStatus = document.getElementById("submitStatus");
 const brickGreenCount = document.getElementById("brickGreenCount");
 const brickYellowCount = document.getElementById("brickYellowCount");
@@ -274,6 +275,7 @@ function showLifeLostCountdown() {
   overlayTitle.textContent = "Life lost";
   overlayScore.textContent = `Score: ${state.score}`;
   overlayCountdown.classList.remove("hidden");
+  overlayPlayButton.classList.add("hidden");
   overlay.classList.remove("hidden");
 
   let remaining = 3;
@@ -302,11 +304,21 @@ function endGame(title, won) {
   overlayTitle.textContent = title;
   overlayScore.textContent = `Score: ${state.score}`;
   overlayCountdown.classList.add("hidden");
+  overlayPlayButton.classList.add("hidden");
   overlay.classList.remove("hidden");
   submitStatus.textContent = "Submitting...";
   submitScore().then((message) => {
     submitStatus.textContent = message;
   });
+}
+
+function showReadyOverlay() {
+  state.status = "READY";
+  overlayTitle.textContent = "Ball Breaker";
+  overlayScore.textContent = "Press play to start.";
+  overlayCountdown.classList.add("hidden");
+  overlayPlayButton.classList.remove("hidden");
+  overlay.classList.remove("hidden");
 }
 
 async function submitScore() {
@@ -436,15 +448,14 @@ function startGame() {
   requestAnimationFrame(() => {
     setupCanvas();
     if (!buildBricks()) return;
-    state.status = "PLAYING";
     state.score = 0;
     state.lives = 3;
     state.submitted = false;
     scoreValueEl.textContent = "000000";
     livesValueEl.textContent = state.lives;
-    overlay.classList.add("hidden");
     submitStatus.textContent = "Waiting";
     resetBallAndPaddle();
+    showReadyOverlay();
   });
 }
 
@@ -469,8 +480,14 @@ startButton.addEventListener("click", () => {
   }
 });
 
+overlayPlayButton.addEventListener("click", () => {
+  overlay.classList.add("hidden");
+  overlayPlayButton.classList.add("hidden");
+  state.status = "PLAYING";
+});
+
 window.addEventListener("resize", () => {
-  if (state.status === "PLAYING" || state.status === "ENDED") {
+  if (state.status === "PLAYING" || state.status === "ENDED" || state.status === "READY") {
     setupCanvas();
     buildBricks();
     resetBallAndPaddle();
