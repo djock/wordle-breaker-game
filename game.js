@@ -13,7 +13,6 @@ const overlay = document.getElementById("overlay");
 const overlayTitle = document.getElementById("overlayTitle");
 const overlayScore = document.getElementById("overlayScore");
 const overlayCountdown = document.getElementById("overlayCountdown");
-const restartButton = document.getElementById("restartButton");
 const submitStatus = document.getElementById("submitStatus");
 const brickGreenCount = document.getElementById("brickGreenCount");
 const brickYellowCount = document.getElementById("brickYellowCount");
@@ -118,7 +117,7 @@ function loadPlayerData() {
     yellowValueEl.textContent = playerData.yellow;
     brickGreenCount.textContent = playerData.green;
     brickYellowCount.textContent = playerData.yellow;
-    tokenStatus.textContent = "Token loaded. Ready to play.";
+    tokenStatus.textContent = "Token loaded. Press Start Game when you're ready.";
     return true;
   } catch (error) {
     tokenStatus.textContent = "Missing or invalid token in the URL.";
@@ -275,7 +274,6 @@ function showLifeLostCountdown() {
   overlayTitle.textContent = "Life lost";
   overlayScore.textContent = `Score: ${state.score}`;
   overlayCountdown.classList.remove("hidden");
-  restartButton.classList.add("hidden");
   overlay.classList.remove("hidden");
 
   let remaining = 3;
@@ -293,7 +291,6 @@ function showLifeLostCountdown() {
       countdownTimer = null;
       overlay.classList.add("hidden");
       overlayCountdown.classList.add("hidden");
-      restartButton.classList.remove("hidden");
       resetBallAndPaddle();
       state.status = "PLAYING";
     }
@@ -305,7 +302,6 @@ function endGame(title, won) {
   overlayTitle.textContent = title;
   overlayScore.textContent = `Score: ${state.score}`;
   overlayCountdown.classList.add("hidden");
-  restartButton.classList.remove("hidden");
   overlay.classList.remove("hidden");
   submitStatus.textContent = "Submitting...";
   submitScore().then((message) => {
@@ -452,23 +448,6 @@ function startGame() {
   });
 }
 
-function restartGame() {
-  state.status = "PLAYING";
-  state.score = 0;
-  state.lives = 3;
-  state.submitted = false;
-  if (countdownTimer) {
-    clearInterval(countdownTimer);
-    countdownTimer = null;
-  }
-  scoreValueEl.textContent = "000000";
-  livesValueEl.textContent = state.lives;
-  overlay.classList.add("hidden");
-  overlayCountdown.classList.add("hidden");
-  submitStatus.textContent = "Waiting";
-  buildBricks();
-  resetBallAndPaddle();
-}
 
 function handlePointerMove(event) {
   if (state.status !== "PLAYING") return;
@@ -489,8 +468,6 @@ startButton.addEventListener("click", () => {
     requestAnimationFrame(loop);
   }
 });
-
-restartButton.addEventListener("click", restartGame);
 
 window.addEventListener("resize", () => {
   if (state.status === "PLAYING" || state.status === "ENDED") {
